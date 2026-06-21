@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>Shopify SEO Meta Inspector · meta description, alt text & title audit</title>
+  <meta name="description" content="Free Shopify SEO tool: check missing or duplicate meta descriptions, title tags, and alt text. Improve your Shopify store search rankings instantly.">
+  <meta name="keywords" content="shopify seo, meta description checker, alt text audit, shopify meta tags, seo tool for shopify">
+  <meta name="author" content="Shopify SEO Meta Inspector">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background: #f4f7fc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      color: #1a2639;
+    }
+    .container {
+      max-width: 1100px;
+      width: 100%;
+      background: white;
+      border-radius: 32px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+      padding: 1.8rem 1.5rem 2.5rem;
+      margin: 1.5rem 0 2rem;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.4rem 0.8rem;
+      margin-bottom: 0.2rem;
+    }
+    h1 small {
+      font-size: 0.9rem;
+      font-weight: 400;
+      background: #eef3fa;
+      padding: 0.2rem 0.8rem;
+      border-radius: 40px;
+      color: #2c3e6b;
+    }
+    .subhead {
+      color: #3e4c6b;
+      margin-bottom: 1.8rem;
+      font-size: 1rem;
+      border-left: 4px solid #2b6f9c;
+      padding-left: 1rem;
+      background: #f0f5fe;
+      border-radius: 0 12px 12px 0;
+      padding: 0.6rem 1rem;
+    }
+    .tool-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    @media (min-width: 700px) {
+      .tool-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem 1.8rem;
+      }
+      .ad-placeholder {
+        grid-column: 1 / -1;
+      }
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 1.5rem 1.2rem 1.8rem;
+      box-shadow: 0 4px 12px rgba(0, 20, 40, 0.04);
+      border: 1px solid #e7edf5;
+      transition: 0.1s ease;
+    }
+    .card h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      color: #1a2b44;
+    }
+    .card h2 i {
+      font-style: normal;
+      background: #dce7f5;
+      width: 28px;
+      height: 28px;
+      border-radius: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+    textarea, input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid #d4deec;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      background: #fafcff;
+      transition: 0.15s;
+      margin-bottom: 0.8rem;
+      resize: vertical;
+    }
+    textarea:focus, input:focus {
+      outline: none;
+      border-color: #2b6f9c;
+      box-shadow: 0 0 0 3px rgba(43,111,156,0.15);
+    }
+    .btn {
+      background: #1d3d5c;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.6rem;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: 0.1s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .btn:hover {
+      background: #143048;
+      transform: scale(0.97);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #b6c9e0;
+      color: #1d3d5c;
+    }
+    .btn-outline:hover {
+      background: #eaf1fa;
+    }
+    .result-box {
+      background: #f6faff;
+      border-radius: 20px;
+      padding: 0.9rem 1rem;
+      margin-top: 1rem;
+      border: 1px solid #dce6f2;
+      font-size: 0.9rem;
+      max-height: 260px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .result-box ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .result-box li {
+      padding: 0.25rem 0;
+      border-bottom: 1px solid #e9eff8;
+    }
+    .result-box li:last-child {
+      border-bottom: none;
+    }
+    .badge {
+      display: inline-block;
+      background: #e1ecf9;
+      padding: 0.2rem 0.9rem;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #1d3d5c;
+      margin-left: 0.4rem;
+    }
+    .flex-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .ad-placeholder {
+      background: #f2f6fe;
+      border-radius: 28px;
+      padding: 1.2rem 1.5rem;
+      border: 1px solid #dce6f2;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .ad-placeholder span {
+      font-weight: 500;
+      color: #1d3d5c;
+    }
+    .ad-placeholder small {
+      color: #4f658d;
+    }
+    .affiliate-resource {
+      background: #f0f4fb;
+      border-radius: 28px;
+      padding: 1.2rem 1.5rem;
+      margin: 1.8rem 0 0.5rem;
+      border: 1px solid #dce6f2;
+    }
+    .affiliate-resource h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .affiliate-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 2rem;
+    }
+    .affiliate-links a {
+      color: #1d5a7a;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid transparent;
+    }
+    .affiliate-links a:hover {
+      border-bottom-color: #1d5a7a;
+    }
+    .privacy-note {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: #4f658d;
+      background: #f2f6fd;
+      padding: 0.6rem 1.2rem;
+      border-radius: 60px;
+      display: inline-block;
+    }
+    .footer-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0.2rem 0 1rem;
+    }
+    hr {
+      opacity: 0.3;
+      margin: 1.5rem 0 0.5rem;
+    }
+    .inline-metric {
+      background: #eef3fa;
+      border-radius: 30px;
+      padding: 0.2rem 0.9rem;
+      font-size: 0.7rem;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>
+      🔍 Shopify SEO Meta Inspector
+      <small>beta · audit tool</small>
+    </h1>
+    <div class="subhead">
+      ⚡ Detect missing / duplicate meta descriptions, title tags & alt text. Built for Shopify sellers.
+    </div>
+  </header>
+
+  <div class="tool-grid">
+    <!-- CARD 1: Meta Description & Title Inspector -->
+    <div class="card">
+      <h2><i>📄</i> Meta & Title inspector</h2>
+      <p style="font-size:0.85rem; margin-bottom:0.8rem; color:#2c3e5a;">Paste a list of URLs or meta snippets (one per line). We’ll flag duplicates & missing fields.</p>
+      <textarea id="metaInput" rows="5" placeholder="e.g.&#10;/products/red-shoe | Red Running Shoe | Shop the best red shoe...&#10;/products/blue-hat | Blue Baseball Cap | "> /products/red-shoe | Red Running Shoe | Shop the best red shoe for 2025
+/products/blue-hat | Blue Baseball Cap | 
+/products/red-shoe | Red Running Shoe | Shop the best red shoe for 2025
+/products/green-bag |  | Eco-friendly green bag
+/products/blue-hat | Blue Baseball Cap | Great blue cap</textarea>
+      <div class="flex-row">
+        <button class="btn" id="inspectMetaBtn">🔎 Inspect meta</button>
+        <button class="btn btn-outline" id="clearMetaBtn">Clear</button>
+      </div>
+      <div class="result-box" id="metaResult" role="status" aria-live="polite">
+        <span style="opacity:0.6;">⏳ Results appear here …</span>
+      </div>
+    </div>
+
+    <!-- CARD 2: Alt text auditor -->
+    <div class="card">
+      <h2><i>🖼️</i> Alt text auditor</h2>
+      <p style="font-size:0.85rem; margin-bottom:0.8rem; color:#2c3e5a;">Paste image markup or alt attributes (one per line). We’ll detect missing or generic alt text.</p>
+      <textarea id="altInput" rows="5" placeholder="e.g.&#10;alt=&quot;Red sneaker&quot;&#10;alt=&quot;&quot;&#10;alt=&quot;image&quot;&#10;alt=&quot;product photo&quot;"> alt="Red sneaker"
+alt=""
+alt="image"
+alt="product photo"
+alt="Blue hat"
+alt="  "</textarea>
+      <div class="flex-row">
+        <button class="btn" id="inspectAltBtn">🔎 Audit alt text</button>
+        <button class="btn btn-outline" id="clearAltBtn">Clear</button>
+      </div>
+      <div class="result-box" id="altResult" role="status" aria-live="polite">
+        <span style="opacity:0.6;">⏳ Alt text audit results …</span>
+      </div>
+    </div>
+
+    <!-- AD PLACEHOLDER (visible, spans full width) -->
+    <div class="ad-placeholder">
+      <span>📢 Shopify SEO power‑up</span>
+      <small>Optimize your store with <strong>Plug in SEO</strong> · <a href="#" style="color:#1d5a7a;">try free audit</a> (ad)</small>
+      <span style="background:#dce6f2; padding:0.2rem 1rem; border-radius:40px; font-size:0.75rem;">sponsored</span>
+    </div>
+  </div>
+
+  <!-- AFFILIATE / RESOURCE PLACEHOLDER -->
+  <div class="affiliate-resource">
+    <h3>📘 Shopify SEO resources</h3>
+    <div class="affiliate-links">
+      <a href="#" target="_blank" rel="nofollow">Meta description guide →</a>
+      <a href="#" target="_blank" rel="nofollow">Alt text best practices →</a>
+      <a href="#" target="_blank" rel="nofollow">Shopify SEO checklist (PDF) →</a>
+      <a href="#" target="_blank" rel="nofollow">Partner offer: SEO Inspector</a>
+    </div>
+    <p style="font-size:0.75rem; margin-top:0.5rem; opacity:0.7;">Some links are affiliate partners. We may earn a small commission.</p>
+  </div>
+
+  <!-- PRIVACY NOTE + METRICS -->
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.8rem; margin-top: 1rem;">
+    <div class="privacy-note">
+      🔒 Events may be counted anonymously for product improvement. No personal data collected.
+    </div>
+    <span class="inline-metric">⚙️ v1.0 · shopify meta inspector</span>
+  </div>
+  <hr>
+  <div style="font-size:0.7rem; color:#4f658d; display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
+    <span>keywords: shopify seo, meta description checker, alt text audit</span>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ---------- reporting function (global) ----------
+    window.reportEvent = function(name, payload) {
+      if (typeof window.ORGANISM_METRICS_ENDPOINT === 'string' && window.ORGANISM_METRICS_ENDPOINT.length > 5) {
+        try {
+          const body = JSON.stringify({ event: name, payload: payload || {}, timestamp: Date.now() });
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(window.ORGANISM_METRICS_ENDPOINT, body);
+          } else {
+            fetch(window.ORGANISM_METRICS_ENDPOINT, { method: 'POST', body, keepalive: true });
+          }
+        } catch (e) { /* silent */ }
+      }
+    };
+
+    // Example: report that tool loaded (only if endpoint configured)
+    window.reportEvent('tool_loaded', { tool: 'Shopify SEO Meta Inspector' });
+
+    // ---------- DOM refs ----------
+    const metaInput = document.getElementById('metaInput');
+    const metaResult = document.getElementById('metaResult');
+    const inspectMetaBtn = document.getElementById('inspectMetaBtn');
+    const clearMetaBtn = document.getElementById('clearMetaBtn');
+
+    const altInput = document.getElementById('altInput');
+    const altResult = document.getElementById('altResult');
+    const inspectAltBtn = document.getElementById('inspectAltBtn');
+    const clearAltBtn = document.getElementById('clearAltBtn');
+
+    // ---------- helper: parse lines, trim, skip empty ----------
+    function getLines(textarea) {
+      return textarea.value.split('\n')
+        .map(line => line.trim())
+        .filter(line => line.length > 0);
+    }
+
+    // ---------- META INSPECTOR ----------
+    function inspectMeta() {
+      const lines = getLines(metaInput);
+      if (lines.length === 0) {
+        metaResult.innerHTML = '<span style="color:#a94442;">⚠️ Please paste some meta data first.</span>';
+        return;
+      }
+
+      const reports = [];
+      const titleMap = new Map();   // title -> count
+      const descMap = new Map();    // description -> count
+      const entries = [];           // { raw, title, description, url? }
+
+      lines.forEach((line, idx) => {
+        // try to parse: URL | title | description (pipe separated)
+        const parts = line.split('|').map(s => s.trim());
+        let url = '', title = '', description = '';
+        if (parts.length === 3) {
+          url = parts[0];
+          title = parts[1];
+          description = parts[2];
+        } else if (parts.length === 2) {
+          title = parts[0];
+          description = parts[1];
+        } else {
+          // fallback: treat whole line as title + description? just store
+          title = line;
+          description = '';
+        }
+        entries.push({ raw: line, url, title, description, lineIndex: idx });
+        // count titles & descriptions (case-insensitive)
+        const tLower = title.toLowerCase();
+        const dLower = description.toLowerCase();
+        if (title) titleMap.set(tLower, (titleMap.get(tLower) || 0) + 1);
+        if (description) descMap.set(dLower, (descMap.get(dLower) || 0) + 1);
+      });
+
+      // now build issues
+      let missingTitleCount = 0, missingDescCount = 0;
+      const duplicateTitles = [];
+      const duplicateDescs = [];
+
+      entries.forEach((entry) => {
+        const tLower = entry.title.toLowerCase();
+        const dLower = entry.description.toLowerCase();
+        // missing
+        if (!entry.title) missingTitleCount++;
+        if (!entry.description) missingDescCount++;
+
+        // duplicate titles (only if title exists)
+        if (entry.title && titleMap.get(tLower) > 1) {
+          if (!duplicateTitles.includes(tLower)) duplicateTitles.push(tLower);
+        }
+        if (entry.description && descMap.get(dLower) > 1) {
+          if (!duplicateDescs.includes(dLower)) duplicateDescs.push(dLower);
+        }
+      });
+
+      // Build result output
+      let html = `<ul>`;
+      let issueCount = 0;
+      if (missingTitleCount > 0) {
+        html += `<li>❌ Missing title tags: <strong>${missingTitleCount}</strong></li>`;
+        issueCount++;
+      } else {
+        html += `<li>✅ All titles present</li>`;
+      }
+      if (missingDescCount > 0) {
+        html += `<li>❌ Missing meta descriptions: <strong>${missingDescCount}</strong></li>`;
+        issueCount++;
+      } else {
+        html += `<li>✅ All meta descriptions present</li>`;
+      }
+      if (duplicateTitles.length > 0) {
+        html += `<li>🔁 Duplicate titles: <strong>${duplicateTitles.length}</strong> (${duplicateTitles.slice(0,3).map(t => `“${t}”`).join(', ')})</li>`;
+        issueCount++;
+      } else {
+        html += `<li>✅ No duplicate titles</li>`;
+      }
+      if (duplicateDescs.length > 0) {
+        html += `<li>🔁 Duplicate meta descriptions: <strong>${duplicateDescs.length}</strong> (${duplicateDescs.slice(0,3).map(d => `“${d}”`).join(', ')})</li>`;
+        issueCount++;
+      } else {
+        html += `<li>✅ No duplicate meta descriptions</li>`;
+      }
+      html += `</ul>`;
+      if (issueCount === 0) html = `<span style="color:#1f6d3c;">🎉 All good! No missing or duplicate meta found.</span>`;
+      else html = `<span style="font-weight:500;">🔎 Found ${issueCount} issue(s)</span>` + html;
+
+      metaResult.innerHTML = html;
+
+      // report event (anonymous)
+      window.reportEvent('meta_inspected', { 
+        lines: lines.length, 
+        missingTitle: missingTitleCount, 
+        missingDesc: missingDescCount,
+        duplicateTitles: duplicateTitles.length,
+        duplicateDescs: duplicateDescs.length
+      });
+    }
+
+    // ---------- ALT TEXT AUDITOR ----------
+    function inspectAlt() {
+      const lines = getLines(altInput);
+      if (lines.length === 0) {
+        altResult.innerHTML = '<span style="color:#a94442;">⚠️ Paste alt attributes or image markup.</span>';
+        return;
+      }
+
+      let missingCount = 0;
+      let genericCount = 0;
+      const genericPatterns = ['image', 'photo', 'picture', 'img', 'graphic', ' '];
+      let total = 0;
+      const details = [];
+
+      lines.forEach((line) => {
+        total++;
+        let altValue = '';
+        // try to extract alt="..." or alt='...'
+        const match = line.match(/alt\s*=\s*"([^"]*)"/i) || line.match(/alt\s*=\s*'([^']*)'/i);
+        if (match) {
+          altValue = match[1].trim();
+        } else {
+          // maybe the line itself is the alt? but we treat as missing if no alt= pattern
+          altValue = line; // heuristic
+        }
+
+        const isEmpty = altValue === '';
+        const isGeneric = !isEmpty && genericPatterns.some(p => altValue.toLowerCase() === p);
+
+        if (isEmpty) {
+          missingCount++;
+          details.push(`⚠️ Empty alt: “${line.length > 40 ? line.slice(0,40)+'…' : line}”`);
+        } else if (isGeneric) {
+          genericCount++;
+          details.push(`🟡 Generic alt “${altValue}” → “${line.slice(0,40)}”`);
+        }
+      });
+
+      let html = `<ul>`;
+      let issues = 0;
+      if (missingCount > 0) {
+        html += `<li>❌ Missing alt text: <strong>${missingCount}</strong> / ${total}</li>`;
+        issues++;
+      } else {
+        html += `<li>✅ No missing alt text</li>`;
+      }
+      if (genericCount > 0) {
+        html += `<li>🟡 Generic alt text (image, photo…): <strong>${genericCount}</strong></li>`;
+        issues++;
+      } else {
+        html += `<li>✅ No generic alt text</li>`;
+      }
+      html += `</ul>`;
+      if (details.length > 0) {
+        html += `<div style="margin-top:0.5rem; border-top:1px solid #dce6f2; padding-top:0.5rem;"><strong>Details:</strong><br>${details.slice(0,6).join('<br>')}${details.length>6?'<br>… +'+(details.length-6)+' more':''}</div>`;
+      }
+      if (issues === 0) html = `<span style="color:#1f6d3c;">✅ All alt text looks good (${total} checked).</span>`;
+      altResult.innerHTML = html;
+
+      window.reportEvent('alt_audited', { total, missingCount, genericCount });
+    }
+
+    // ---------- EVENT LISTENERS ----------
+    inspectMetaBtn.addEventListener('click', inspectMeta);
+    clearMetaBtn.addEventListener('click', function() {
+      metaInput.value = '';
+      metaResult.innerHTML = '<span style="opacity:0.6;">⏳ Results appear here …</span>';
+    });
+    inspectAltBtn.addEventListener('click', inspectAlt);
+    clearAltBtn.addEventListener('click', function() {
+      altInput.value = '';
+      altResult.innerHTML = '<span style="opacity:0.6;">⏳ Alt text audit results …</span>';
+    });
+
+    // optional: run demo on page load (but only if fields have content)
+    window.addEventListener('load', function() {
+      if (metaInput.value.trim().length > 5) inspectMeta();
+      if (altInput.value.trim().length > 5) inspectAlt();
+    });
+
+    // extra: allow keyboard execute
+    metaInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.ctrlKey) inspectMeta(); });
+    altInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.ctrlKey) inspectAlt(); });
+
+  })();
+</script>
+
+<!-- invisible privacy / metrics endpoint placeholder (no actual endpoint) -->
+<script>
+  // ORGANISM_METRICS_ENDPOINT is not set by default; reportEvent will silently skip.
+  // To enable, set window.ORGANISM_METRICS_ENDPOINT = 'https://your-endpoint.example.com/metrics';
+  // This tool does not set it automatically.
+</script>
+
+<section data-organism-discovery="hub" style="margin:32px auto 20px;max-width:1040px;padding:16px;border-top:1px solid #d9e2ec;color:#475569;font:14px/1.5 system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <strong style="display:block;color:#0f172a;margin-bottom:6px">More free browser tools</strong>
+  <p style="margin:0 0 8px">This page is part of an autonomous micro-tool network. Explore the live tool directory and related utilities.</p>
+  <p style="margin:0"><a href="https://kingms888.github.io/do-digital-organism-index/" style="color:#0f766e;font-weight:700">Open the tool directory</a> </p>
+</section>
+</body>
+</html>
